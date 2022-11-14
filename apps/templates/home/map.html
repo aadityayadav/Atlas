@@ -4,6 +4,38 @@
 
 {% block content %}
 
+<style>
+  body{
+  background: gray;
+}
+
+.liste ul{
+  list-style: none;
+  padding: 0;
+}
+.liste ul li{
+  padding: 15px;
+  background: 	#F5F5F5;
+  color: 	gray;
+  font-size: 20px;
+  font-family: sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01cm;
+  text-transform: uppercase;
+  transition: 0.5s;
+}
+
+.liste ul li:hover{
+  font-size: 22px;
+  cursor: pointer;
+  color: black;
+}
+
+.liste ul li:nth-child(odd) {
+  background: #DCDCDC; 
+}
+</style>
+
     <!-- Header -->
     <div class="header bg-primary pb-6">
       <div class="container-fluid">
@@ -19,6 +51,14 @@
                 </ol>
               </nav>
             </div>
+            <input type="text" id="addNew" name="addNewList">
+            <button onclick="pushData()">Add</button>
+
+            <div class="liste" id="lists">
+            <ul>
+            </ul>
+            </div>
+            <button onclick="displayCenteroid()">Generate Centroid</button>
             <!-- <div class="col-lg-6 col-5 text-right">
               <a href="#" class="btn btn-sm btn-neutral">New</a>
               <a href="#" class="btn btn-sm btn-neutral">Filters</a>
@@ -27,6 +67,7 @@
         </div>
       </div>
     </div>
+    
     <!-- Page content -->
     <div class="container-fluid mt--6">
       <div class="row">
@@ -40,12 +81,125 @@
       {% include "includes/footer.html" %}
       
     </div>
+    
 
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
 {% block javascripts %}
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC55Nku9rKOLXqPLYNsjh1rYB2vSR-4O8M&libraries=places&callback=initMap">
+    console.log("Google Map embed api called")
+  </script>
+
+<script  type="text/javascript" >
+  var addresses = [];
+  var geocoded = [];
+  
+
+  function pushData(){
+    inputText = document.getElementById('addNew').value;
+    addresses.push(inputText); // This does nothing, except keep an array internally. 
+    console.log(addresses);
+    document.querySelector('#lists ul').innerHTML += "<li>" + inputText + "</li>";
+   
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': inputText}, function(results, status) {
+      if (status == 'OK') {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+        });
+        var lat = results[0].geometry.location.lat();
+        var lng = results[0].geometry.location.lng();
+        var w = 1;
+        geocoded.push([lat,lng,w])
+        // console.log(lat);
+        // console.log(lng);
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+    console.log(geocoded);
+  }
+
+    function twoPtCentroid(lat1,lon1,w1,lat2,lon2,w2){
+      // lat1 = 40.7486
+      // lon1 = -73.9864
+      // w1 = 1
+
+      // lat2 = 39.7864
+      // lon2 = -74.8224
+      // w2 = 2
+
+      // const R = 6371e3; // metres
+      const lat1_rad = lat1 * Math.PI/180; // φ1 in radians
+      const lat2_rad = lat2 * Math.PI/180; // φ2 in raidans
+
+      const lon1_rad = lon1 * Math.PI/180; // φ1 in radians
+      const lon2_rad = lon2 * Math.PI/180; // φ2 in raidans
+
+      const delta_lat_rad = (lat2-lat1) * Math.PI/180;  // Δφ
+      const delta_lon_rad = (lon2-lon1) * Math.PI/180;  // Δλ
+
+      const h = Math.sin(delta_lat_rad/2) * Math.sin(delta_lat_rad/2) +
+                Math.cos(lat1_rad) * Math.cos(lat2_rad) *
+                Math.sin(delta_lon_rad/2) * Math.sin(delta_lon_rad/2);
+      const c = 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1-h));
+      // const d = R * c; // in metres
+
+      if (w1<w2){
+          f = 1-w1/(w1+w2);
+      } else{
+          f = 1-w2/(w1+w2) ;
+      }
+          
+      a = Math.sin((1-f)*c) / Math.sin(c);
+      b = Math.sin(f*c) / Math.sin(c);
+      x = a * Math.cos(lat1_rad) * Math.cos(lon1_rad) + b * Math.cos(lat2_rad) * Math.cos(lon2_rad);
+      y = a * Math.cos(lat1_rad) * Math.sin(lon1_rad) + b * Math.cos(lat2_rad) * Math.sin(lon2_rad);
+      z = a * Math.sin(lat1_rad) + b * Math.sin(lat2_rad);
+      clat_rad = Math.atan2(z, Math.sqrt(x*x + y*y));    
+      clon_rad = Math.atan2(y, x); 
+      clat = clat_rad*180/Math.PI;
+      clon = clon_rad*180/Math.PI;
+
+      console.log(clat);
+      console.log(clon);
+      return [clat,clon,w1+w2];
+    }
+
+    
+    function generateCentroid(geocoded = []){
+      var i = 0;
+      if(geocoded.length <= 1){
+          return geocoded;
+        }
+      while (geocoded.length != 1){
+        newCoord = twoPtCentroid(geocoded[i][0],geocoded[i][1],geocoded[i][2],geocoded[i+1][0],geocoded[i+1][1],geocoded[i+1][2]);
+        if (i > -1) { // only splice array when item is found
+            geocoded.splice(i, 2); // 2nd parameter means remove 2 item only
+          }
+        geocoded.push(newCoord);
+      }
+      return geocoded;
+    }
+
+    function displayCenteroid(){
+      centroid = generateCentroid(geocoded);
+      centroidObj = {lat: centroid[0][0],lng: centroid[0][1]};
+      console.log(centroidObj);
+      if(centroid.length != 0){
+        map.setCenter(centroidObj);
+          var marker = new google.maps.Marker({
+              map: map,
+              position: centroidObj
+          });
+      }
+    }
+</script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script> -->
 
 {% endblock javascripts %}

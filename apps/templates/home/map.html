@@ -5,9 +5,9 @@
 {% block content %}
 
 <style>
-  body{
+  /* body{
   background: gray;
-}
+} */
 
 .liste ul{
   list-style: none;
@@ -15,9 +15,11 @@
 }
 .liste ul li{
   padding: 15px;
+  border-radius: 25px;
   background: 	#F5F5F5;
   color: 	gray;
-  font-size: 20px;
+  width: auto;
+  font-size: 14px;
   font-family: sans-serif;
   font-weight: 400;
   letter-spacing: 0.01cm;
@@ -26,13 +28,18 @@
 }
 
 .liste ul li:hover{
-  font-size: 22px;
+  font-size: 17px;
   cursor: pointer;
   color: black;
 }
 
 .liste ul li:nth-child(odd) {
   background: #DCDCDC; 
+}
+
+#generateGC{
+  border: 3px solid black;
+  font-size: 17px;
 }
 </style>
 
@@ -51,20 +58,40 @@
                 </ol>
               </nav>
             </div>
-            <input type="text" id="addNew" name="addNewList">
-            <button onclick="pushData()">Add</button>
-
-            <div class="liste" id="lists">
-            <ul>
-            </ul>
-            </div>
-            <button onclick="displayCenteroid()">Generate Centroid</button>
-            <!-- <div class="col-lg-6 col-5 text-right">
-              <a href="#" class="btn btn-sm btn-neutral">New</a>
-              <a href="#" class="btn btn-sm btn-neutral">Filters</a>
-            </div> -->
           </div>
         </div>
+        <br>
+            <input type="text" id="addNew" name="addNewList">
+            <button onclick="pushData()">Add</button>
+            <br><br>
+            <div class="row">
+              <div class="col">
+                <div class="card bg-default shadow">
+                  <div class="table-responsive">
+                    <table class="table align-items-center table-dark table-flush">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col" class="sort" data-sort="name">Addresses</th>
+                        </tr>
+                      </thead>
+                      <tbody class="list">
+                        <tr>
+                          <th scope="row">
+                            <div class="media align-items-center">
+                              <div class="media-body">
+                              </div>
+                            </div>
+                          </th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <button onclick="displayCenteroid()" class="btn btn-neutral" id="generateGC">Generate Centroid</button>
+            <br><br>
       </div>
     </div>
     
@@ -102,7 +129,7 @@
     inputText = document.getElementById('addNew').value;
     addresses.push(inputText); // This does nothing, except keep an array internally. 
     console.log(addresses);
-    document.querySelector('#lists ul').innerHTML += "<li>" + inputText + "</li>";
+    document.querySelector('.media-body').innerHTML += "<p>" + inputText + "</p>";
    
     geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': inputText}, function(results, status) {
@@ -195,7 +222,10 @@
         map.setCenter(centroidObj);
           var marker = new google.maps.Marker({
               map: map,
-              position: centroidObj
+              position: centroidObj,
+              icon: {
+                url: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
+              }
           });
       }
     }

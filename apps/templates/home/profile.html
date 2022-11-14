@@ -1,22 +1,22 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Profile {% endblock title %}
+{% block title %} About Us {% endblock title %}
 
 {% block content %}
 
 <div class="header pb-6 d-flex align-items-center" 
-     style="min-height: 500px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+     style="min-height: 400px; background-image: url(/static/assets/img/theme/i-liked-this.jpeg); background-size: cover; background-position: center top;">
   <!-- Mask -->
-  <span class="mask bg-gradient-default opacity-8"></span>
+  <span class="mask bg-gradient-default opacity-6"></span>
   <!-- Header container -->
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10">
         <h1 class="display-2 text-white"> 
-          Hello {{ current_user.username }}
+          About Us 
         </h1>
-        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
-        <a href="#!" class="btn btn-neutral">Edit profile</a>
+        <p class="text-white mt-0 mb-5">This is a short description to get to know us! Please feel free to reach out :)</p>
+        <!-- <a href="#!" class="btn btn-neutral">Edit profile</a> -->
       </div>
     </div>
   </div>
@@ -24,22 +24,22 @@
 <!-- Page content -->
 <div class="container-fluid mt--6">
   <div class="row">
-    <div class="col-xl-4 order-xl-2">
+    <div class="col-xl-6 order-xl-2">
       <div class="card card-profile">
         <img src="/static/assets/img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
               <a href="#">
-                <img src="/static/assets/img/theme/team-4.jpg" class="rounded-circle">
+                <img src="static\assets\img\theme\1663542094597.jpg" alt="Image placeholder" class="rounded-circle">
               </a>
             </div>
           </div>
         </div>
         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
           <div class="d-flex justify-content-between">
-            <a href="#" class="btn btn-sm btn-info  mr-4 ">Connect</a>
-            <a href="#" class="btn btn-sm btn-default float-right">Message</a>
+            <a href="https://www.linkedin.com/in/aaditya-yadav-a556a61b1/" target="_blank" class="btn btn-sm btn-info  mr-4 ">LinkedIn</a>
+            <a href="https://github.com/aadityayadav" target="_blank" class="btn btn-sm btn-default float-right">GitHub</a>
           </div>
         </div>
         <div class="card-body pt-0">
@@ -47,16 +47,8 @@
             <div class="col">
               <div class="card-profile-stats d-flex justify-content-center">
                 <div>
-                  <span class="heading">22</span>
-                  <span class="description">Friends</span>
-                </div>
-                <div>
-                  <span class="heading">10</span>
-                  <span class="description">Photos</span>
-                </div>
-                <div>
-                  <span class="heading">89</span>
-                  <span class="description">Comments</span>
+                  <span class="heading">Aaditya Yadav</span>
+                  <span class="description">University of Waterloo, Software Engineering</span>
                 </div>
               </div>
             </div>
@@ -69,104 +61,76 @@
               {{ current_user.email }}
             </div>
             <div class="h5 mt-4">
-              <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+              <i class="ni business_briefcase-24 mr-2"></i>
+              Hello! I am a Software Engineering student at the University of Waterloo and I am extremely passionate about learning. 
             </div>
-            <div>
-              <i class="ni education_hat mr-2"></i>University of Computer Science
+            <div class="h5 mt-2">
+              <i class="ni business_briefcase-24 mr-2"></i>
+            My primary focus in my career is to gain as much experience as possible in diverse software fields. I like to take up challenges, especially if it involves broadening my horizons. Something that I love about software development is the process of bringing your imagination to life. Having the opportunity to express your creativity and make significant contributions to a project is what drives me. My mentor once told me "You don't have to be the best, but you do have to be a known quantity" and that is what I strive to become.
+            </div>
+            <div class="h5 mt-2">
+              <i class="ni business_briefcase-24 mr-2"></i>
+            Feel free to connect with me or shoot me a message!
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-xl-8 order-xl-1">
-      <div class="card">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">Edit profile </h3>
-            </div>
-            <div class="col-4 text-right">
-              <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+    
+    <div class="col-xl-6 order-xl-2">
+      <div class="card card-profile">
+        <img src="/static/assets/img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="#">
+                <img src="\static\assets\img\theme\1623073197197.jpg" class="rounded-circle">
+              </a>
             </div>
           </div>
         </div>
-        <div class="card-body">
-          <form>
-            <h6 class="heading-small text-muted mb-4">User information</h6>
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-username">Username</label>
-                    <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ current_user.username }}">
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-email">Email address</label>
-                    <input type="email" id="input-email" class="form-control" placeholder="{{ current_user.email }}">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">First name</label>
-                    <input type="text" id="input-first-name" class="form-control" placeholder="First name" value="Lucky">
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-last-name">Last name</label>
-                    <input type="text" id="input-last-name" class="form-control" placeholder="Last name" value="Jesse">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr class="my-4" />
-            <!-- Address -->
-            <h6 class="heading-small text-muted mb-4">Contact information</h6>
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-address">Address</label>
-                    <input id="input-address" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" type="text">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-city">City</label>
-                    <input type="text" id="input-city" class="form-control" placeholder="City" value="New York">
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-country">Country</label>
-                    <input type="text" id="input-country" class="form-control" placeholder="Country" value="United States">
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-country">Postal code</label>
-                    <input type="number" id="input-postal-code" class="form-control" placeholder="Postal code">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr class="my-4" />
-            <!-- Description -->
-            <h6 class="heading-small text-muted mb-4">About me</h6>
-            <div class="pl-lg-4">
-              <div class="form-group">
-                <label class="form-control-label">About Me</label>
-                <textarea rows="4" class="form-control" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
-              </div>
-            </div>
-          </form>
+        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class="d-flex justify-content-between">
+            <a href="https://www.linkedin.com/in/aditya-swarup-51b93b70/" target="_blank" class="btn btn-sm btn-info  mr-4 ">LinkedIn</a>
+            <a href="https://github.com/AdityaSwarup" target="_blank" class="btn btn-sm btn-default float-right">GitHub</a>
+          </div>
         </div>
+        <div class="card-body pt-0">
+          <div class="row">
+            <div class="col">
+              <div class="card-profile-stats d-flex justify-content-center">
+                <div>
+                  <span class="heading">Aditya Swarup</span>
+                  <span class="description">University of Waterloo, Pure Mathematics</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <h5 class="h3">
+              {{ current_user.username }}
+            </h5>
+            <div class="h5 font-weight-300">
+              {{ current_user.email }}
+            </div>
+            <div class="h5 mt-4">
+              <i class="ni business_briefcase-24 mr-2"></i>
+              I'm a co-op student at the University of Waterloo pursuing an Honors in Pure Mathematics with a minor in Philosophy. 
+              I love problem-solving and I always look to be a more versatile, quick, and dedicated learner. 
+              I'm always looking for new opportunities to learn, be it in the field of Mathematics, Philosophy, Languages, or even the Arts. 
+            </div>
+            <div class="h5 mt-2">
+              <i class="ni business_briefcase-24 mr-2"></i>
+              I strongly believe in the power of collaboration in an effort to come up with innovative ideas! Shoot me a message to collaborate!
+            </div>
+            <div class="h5 mt-5">
+              <i class="ni business_briefcase-24 mr-2"></i>
+            
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
       </div>
     </div>
   </div>
@@ -179,3 +143,5 @@
 
 <!-- Specific JS goes HERE --> 
 {% block javascripts %}{% endblock javascripts %}
+
+
